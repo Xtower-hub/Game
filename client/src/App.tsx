@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { TowerStructure, RealisticEnvironment } from './components/Tower3D';
-import { Shield, Zap, Flame, User, ArrowUp, Skull, Hammer, Play, CheckCircle2 } from 'lucide-react';
+import { Shield, Zap, Flame, User, ArrowUp, Skull, Hammer, CheckCircle2 } from 'lucide-react';
 import { Client, Room } from 'colyseus.js';
 import { createClient } from '@supabase/supabase-js';
 
@@ -12,9 +12,9 @@ const supabaseAnonKey = import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbG
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function App() {
-  // Gameplay State
-  const [playerPos, setPlayerPos] = useState<[number, number, number]>([0, 0, 8]);
-  const [altitude, setAltitude] = useState(0);
+  // Player Position Start: Camera framing at centered level
+  const [playerPos, setPlayerPos] = useState<[number, number, number]>([0, 10, 8]);
+  const [altitude, setAltitude] = useState(10);
   const [hp, setHp] = useState(100);
   const [resources, setResources] = useState({ metal: 35, basalt: 20 });
   const [shelters, setShelters] = useState<Array<{ id: string; pos: [number, number, number]; hp: number; shield: boolean }>>([
@@ -59,14 +59,13 @@ export default function App() {
       .then((room) => {
         colyseusRoomRef.current = room;
         setConnectedServer(true);
-        console.log("[XTOWER CLIENT] Joined 3D Colyseus Tower Room successfully!");
       })
-      .catch((err) => {
-        console.log("[XTOWER CLIENT] Standalone local 3D Mode active (Server offline/local)");
+      .catch(() => {
+        console.log("[XTOWER CLIENT] Mode 3D Local Actif");
       });
   }, []);
 
-  // Keyboard Controls Listener (Z, Q, S, D / Arrow Keys + Space)
+  // Keyboard Controls Listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       setPlayerPos((prev) => {
@@ -75,13 +74,12 @@ export default function App() {
         const climbStep = 1.2;
 
         if (e.key === 'z' || e.key === 'Z' || e.key === 'ArrowUp') {
-          y += climbStep; // Climb Up
-          // Spiral angle math for smooth 3D ascension curve
+          y += climbStep;
           const angle = (y / 4) * 0.4;
           x = Math.cos(angle) * 8;
           z = Math.sin(angle) * 8;
         } else if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') {
-          y = Math.max(0, y - climbStep); // Descend
+          y = Math.max(0, y - climbStep);
           const angle = (y / 4) * 0.4;
           x = Math.cos(angle) * 8;
           z = Math.sin(angle) * 8;
@@ -90,13 +88,12 @@ export default function App() {
         } else if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') {
           x += step;
         } else if (e.key === ' ' || e.code === 'Space') {
-          y += 2.0; // Jump
+          y += 2.0;
         }
 
         const newAltitude = Math.round(y);
         setAltitude(newAltitude);
 
-        // Send 3D movement to Colyseus Server
         if (colyseusRoomRef.current) {
           colyseusRoomRef.current.send("move", { x, y, z });
         }
@@ -142,58 +139,60 @@ export default function App() {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-basalte select-none font-mono">
-      {/* 3D WebGL Canvas Viewport */}
-      <Canvas shadows className="w-full h-full">
-        <PerspectiveCamera makeDefault position={[playerPos[0], playerPos[1] + 6, playerPos[2] + 16]} fov={60} />
-        <OrbitControls target={[playerPos[0], playerPos[1] + 1, playerPos[2]]} maxPolarAngle={Math.PI / 2 + 0.1} minDistance={4} maxDistance={30} />
-        <RealisticEnvironment />
-        <TowerStructure playerPos={playerPos} shelters={shelters} rats={rats} resources={collectibleResources} />
-      </Canvas>
+    <div className="fixed inset-0 w-full h-full overflow-hidden bg-[#151210] select-none font-mono flex flex-col">
+      {/* 3D WebGL Canvas Viewport - FULLSCREEN 100% */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <Canvas shadows className="w-full h-full">
+          <PerspectiveCamera makeDefault position={[playerPos[0], playerPos[1] + 2, playerPos[2] + 14]} fov={55} />
+          <OrbitControls target={[playerPos[0], playerPos[1] + 1, playerPos[2]]} maxPolarAngle={Math.PI / 2 + 0.1} minDistance={4} maxDistance={30} />
+          <RealisticEnvironment />
+          <TowerStructure playerPos={playerPos} shelters={shelters} rats={rats} resources={collectibleResources} />
+        </Canvas>
+      </div>
 
-      {/* Top Left HUD: Player Profile & Resources */}
+      {/* Styled Modern HUD Overlay */}
       <div className="absolute top-6 left-6 z-10 flex flex-col space-y-3 pointer-events-none">
-        <div className="bg-basalte/90 border border-braise/40 p-3.5 rounded-xl backdrop-blur-md shadow-2xl flex items-center space-x-3 pointer-events-auto">
-          <div className="w-9 h-9 rounded-full bg-braise/20 border border-braise flex items-center justify-center text-braise">
+        <div className="bg-[#151210]/90 border border-[#C4491D]/40 p-3.5 rounded-xl backdrop-blur-md shadow-2xl flex items-center space-x-3 pointer-events-auto">
+          <div className="w-9 h-9 rounded-full bg-[#C4491D]/20 border border-[#C4491D] flex items-center justify-center text-[#C4491D]">
             <User className="w-5 h-5" />
           </div>
           <div>
-            <div className="font-bold text-xs text-cendre flex items-center space-x-2">
+            <div className="font-bold text-xs text-[#E8E1D3] flex items-center space-x-2">
               <span>{user?.email ? user.email.split('@')[0] : 'Grimpeur_Alpha'}</span>
-              <span className={`w-2 h-2 rounded-full ${connectedServer ? 'bg-emerald-500' : 'bg-yellow-500'}`} title={connectedServer ? 'Connecté Serveur Colyseus' : 'Mode 3D Local'} />
+              <span className={`w-2 h-2 rounded-full ${connectedServer ? 'bg-emerald-500' : 'bg-yellow-500'}`} />
             </div>
-            <div className="w-32 h-2 bg-basalte border border-braise/30 rounded-full overflow-hidden mt-1">
-              <div className="h-full bg-gradient-to-r from-red-600 to-braise" style={{ width: `${hp}%` }} />
+            <div className="w-32 h-2 bg-[#151210] border border-[#C4491D]/30 rounded-full overflow-hidden mt-1">
+              <div className="h-full bg-gradient-to-r from-red-600 to-[#C4491D]" style={{ width: `${hp}%` }} />
             </div>
           </div>
         </div>
 
-        <div className="bg-basalte/90 border border-cendre/20 p-2.5 rounded-xl backdrop-blur-md flex items-center space-x-4 text-xs font-mono">
-          <div className="flex items-center space-x-1.5 text-cendre/80">
-            <span className="w-2.5 h-2.5 rounded-full bg-braise" />
-            <span>Métal: <strong className="text-cendre">{resources.metal}</strong></span>
+        <div className="bg-[#151210]/90 border border-[#E8E1D3]/20 p-2.5 rounded-xl backdrop-blur-md flex items-center space-x-4 text-xs">
+          <div className="flex items-center space-x-1.5 text-[#E8E1D3]/80">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C4491D]" />
+            <span>Métal: <strong className="text-[#E8E1D3]">{resources.metal}</strong></span>
           </div>
-          <div className="flex items-center space-x-1.5 text-cendre/80">
+          <div className="flex items-center space-x-1.5 text-[#E8E1D3]/80">
             <span className="w-2.5 h-2.5 rounded-full bg-gray-500" />
-            <span>Basalte: <strong className="text-cendre">{resources.basalt}</strong></span>
+            <span>Basalte: <strong className="text-[#E8E1D3]">{resources.basalt}</strong></span>
           </div>
         </div>
       </div>
 
       {/* Top Right HUD: Live Altitude Counter */}
-      <div className="absolute top-6 right-6 z-10 bg-basalte/90 border border-braise/60 px-5 py-2.5 rounded-2xl backdrop-blur-md shadow-2xl flex items-center space-x-3 pointer-events-none">
-        <ArrowUp className="w-5 h-5 text-braise animate-bounce" />
+      <div className="absolute top-6 right-6 z-10 bg-[#151210]/90 border border-[#C4491D]/60 px-5 py-2.5 rounded-2xl backdrop-blur-md shadow-2xl flex items-center space-x-3 pointer-events-none">
+        <ArrowUp className="w-5 h-5 text-[#C4491D] animate-bounce" />
         <div className="flex flex-col items-end">
-          <span className="text-[9px] text-cendre/60 uppercase tracking-widest">Altitude 3D Jouable</span>
-          <span className="text-2xl font-black text-braise">{altitude} m</span>
+          <span className="text-[9px] text-[#E8E1D3]/60 uppercase tracking-widest">Altitude 3D Jouable</span>
+          <span className="text-2xl font-black text-[#C4491D]">{altitude} m</span>
         </div>
       </div>
 
       {/* Interactive Action Bar (Build & Invasions) */}
-      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-3 bg-basalte/90 border border-braise/40 p-2 rounded-2xl backdrop-blur-md shadow-2xl">
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-3 bg-[#151210]/90 border border-[#C4491D]/40 p-2 rounded-2xl backdrop-blur-md shadow-2xl">
         <button
           onClick={handleBuildShelter}
-          className="px-4 py-2 bg-braise hover:bg-braise/90 text-cendre font-bold text-xs uppercase rounded-xl transition-all flex items-center space-x-2 shadow-lg"
+          className="px-4 py-2 bg-[#C4491D] hover:bg-[#C4491D]/90 text-[#E8E1D3] font-bold text-xs uppercase rounded-xl transition-all flex items-center space-x-2 shadow-lg"
         >
           <Hammer className="w-4 h-4" />
           <span>Construire Abri (10 Basalte)</span>
@@ -201,7 +200,7 @@ export default function App() {
 
         <button
           onClick={handleTriggerInvasion}
-          className="px-4 py-2 bg-toxique/20 border border-toxique hover:bg-toxique/30 text-toxique font-bold text-xs uppercase rounded-xl transition-all flex items-center space-x-2"
+          className="px-4 py-2 bg-[#8FA31E]/20 border border-[#8FA31E] hover:bg-[#8FA31E]/30 text-[#8FA31E] font-bold text-xs uppercase rounded-xl transition-all flex items-center space-x-2"
         >
           <Skull className="w-4 h-4" />
           <span>Invoquer Invasion Rats</span>
@@ -209,43 +208,16 @@ export default function App() {
       </div>
 
       {/* Controls Bar Footer */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-basalte/80 border border-cendre/20 px-6 py-1.5 rounded-full backdrop-blur-md text-[11px] font-mono text-cendre/70 flex items-center space-x-3 pointer-events-none">
-        <span className="text-braise font-bold">[TOUCHES Z S]</span>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-[#151210]/90 border border-[#E8E1D3]/20 px-6 py-1.5 rounded-full backdrop-blur-md text-[11px] font-mono text-[#E8E1D3]/70 flex items-center space-x-3 pointer-events-none">
+        <span className="text-[#C4491D] font-bold">[TOUCHES Z S]</span>
         <span>Grimper / Descendre</span>
         <span>•</span>
-        <span className="text-braise font-bold">[Q D / Flèches]</span>
+        <span className="text-[#C4491D] font-bold">[Q D / Flèches]</span>
         <span>Latéral</span>
         <span>•</span>
-        <span className="text-braise font-bold">[Espace]</span>
+        <span className="text-[#C4491D] font-bold">[Espace]</span>
         <span>Sauter</span>
       </div>
-
-      {/* Supabase Login Modal Drawer */}
-      {!user && (
-        <div className="absolute top-6 right-64 z-20">
-          <div className="bg-basalte/95 border border-braise/40 p-3 rounded-xl backdrop-blur-md text-xs">
-            {authSent ? (
-              <span className="text-emerald-400 font-bold flex items-center space-x-1">
-                <CheckCircle2 className="w-3.5 h-3.5 inline mr-1" />
-                <span>Magic link envoyé !</span>
-              </span>
-            ) : (
-              <form onSubmit={handleMagicLink} className="flex items-center space-x-2">
-                <input
-                  type="email"
-                  placeholder="Connexion Email"
-                  value={authEmail}
-                  onChange={(e) => setAuthEmail(e.target.value)}
-                  className="bg-basalte border border-cendre/30 px-2 py-1 rounded text-cendre text-xs outline-none"
-                />
-                <button type="submit" className="px-2.5 py-1 bg-braise text-cendre font-bold rounded">
-                  OK
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
