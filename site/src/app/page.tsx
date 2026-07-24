@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import AltitudeMeter from '@/components/AltitudeMeter';
-import { Shield, Trophy, Skull, Flame, ArrowUpRight, Zap, CheckCircle2 } from 'lucide-react';
+import { Shield, Trophy, Skull, Flame, ArrowUpRight, Zap, CheckCircle2, Menu, X, Mail, Phone, MapPin, Globe, ExternalLink } from 'lucide-react';
 
 export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,12 +17,71 @@ export default function HomePage() {
     }
   };
 
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactSubmitted(true);
+  };
+
   return (
     <main className="relative min-h-screen bg-basalte text-cendre overflow-hidden">
+      {/* Dynamic Altitude & Real Online Players Counter */}
       <AltitudeMeter />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 text-center border-b border-braise/20">
+      {/* Navigation Header Menu */}
+      <header className="fixed top-0 left-0 right-0 z-40 bg-basalte/80 backdrop-blur-md border-b border-braise/20 transition-all">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <a href="#accueil" className="flex items-center space-x-3 font-title text-2xl font-black text-cendre tracking-wider">
+            <span className="w-9 h-9 rounded-lg bg-braise flex items-center justify-center text-basalte font-mono font-bold text-xl">X</span>
+            <span>XTOWER</span>
+          </a>
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center space-x-8 font-mono text-sm uppercase tracking-wider">
+            <a href="#accueil" className="text-cendre/80 hover:text-braise transition-colors">Accueil</a>
+            <a href="#gameplay" className="text-cendre/80 hover:text-braise transition-colors">Gameplay</a>
+            <a href="#classement" className="text-cendre/80 hover:text-braise transition-colors">Classement</a>
+            <a href="#contact" className="text-cendre/80 hover:text-braise transition-colors">Contact</a>
+          </nav>
+
+          <div className="hidden md:flex items-center space-x-4">
+            <a
+              href="#beta"
+              className="px-5 py-2.5 bg-braise hover:bg-braise/90 text-cendre font-mono font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-lg shadow-braise/20"
+            >
+              Rejoindre la Bêta
+            </a>
+          </div>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-cendre hover:text-braise focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-basalte border-b border-braise/30 px-6 py-6 font-mono text-sm flex flex-col space-y-4">
+            <a href="#accueil" onClick={() => setMobileMenuOpen(false)} className="text-cendre hover:text-braise py-1 border-b border-cendre/10">Accueil</a>
+            <a href="#gameplay" onClick={() => setMobileMenuOpen(false)} className="text-cendre hover:text-braise py-1 border-b border-cendre/10">Gameplay</a>
+            <a href="#classement" onClick={() => setMobileMenuOpen(false)} className="text-cendre hover:text-braise py-1 border-b border-cendre/10">Classement</a>
+            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="text-cendre hover:text-braise py-1 border-b border-cendre/10">Contact</a>
+            <a
+              href="#beta"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-2 text-center px-5 py-3 bg-braise text-cendre font-bold uppercase rounded-lg"
+            >
+              Rejoindre la Bêta
+            </a>
+          </div>
+        )}
+      </header>
+
+      {/* Hero Section / Accueil */}
+      <section id="accueil" className="relative min-h-screen pt-24 flex flex-col justify-center items-center px-6 text-center border-b border-braise/20">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-braise/15 via-basalte to-basalte pointer-events-none" />
         
         <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-braise/40 bg-braise/10 text-braise font-mono text-xs font-semibold uppercase tracking-widest mb-8 animate-pulse">
@@ -45,114 +106,63 @@ export default function HomePage() {
             <ArrowUpRight className="w-5 h-5" />
           </a>
           <a
-            href="/client"
+            href="https://client-mu-amber-43.vercel.app"
             target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 py-4 bg-basalte border border-cendre/20 hover:border-braise text-cendre font-semibold rounded-lg transition-all flex items-center justify-center space-x-2"
           >
             <span>Lancer la Démo 3D</span>
+            <ExternalLink className="w-4 h-4 ml-1 opacity-70" />
           </a>
         </div>
       </section>
 
-      {/* Palier 1: Grimper */}
-      <section className="py-28 px-6 border-b border-braise/20 max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="text-braise font-mono font-bold text-sm tracking-widest uppercase mb-3">Palier I — Vertige</div>
-            <h2 className="font-title text-4xl md:text-5xl font-black mb-6 uppercase">
-              Escaladez la Tour Infinie
-            </h2>
-            <p className="text-cendre/75 text-lg leading-relaxed mb-6">
-              L’ascension est sans fin. Chaque étage franchi augmente la pression. Utilisez la physique 3D pour sauter de rebord en rebord, éviter les pièges et dépasser les autres joueurs en temps réel.
-            </p>
-            <div className="flex items-center space-x-4 font-mono text-sm text-braise">
-              <Zap className="w-5 h-5" />
-              <span>Plus vous montez, plus les collisions entre joueurs sont meurtrières.</span>
-            </div>
-          </div>
-          <div className="bg-basalte border border-braise/30 rounded-2xl p-8 shadow-2xl relative overflow-hidden group">
-            <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-braise/10 rounded-full blur-3xl group-hover:bg-braise/20 transition-all" />
-            <div className="font-mono text-xs text-cendre/50 uppercase mb-4">Statistiques d'ascension</div>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center border-b border-cendre/10 pb-3">
-                <span className="text-cendre/80">Record Mondial d'Altitude</span>
-                <span className="font-mono font-bold text-braise">4 892 m</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-cendre/10 pb-3">
-                <span className="text-cendre/80">Joueurs sur la même instance</span>
-                <span className="font-mono font-bold text-cendre">Monde Partagé Unique</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-cendre/80">Dégâts de chute</span>
-                <span className="font-mono font-bold text-red-500">Proportionnels</span>
-              </div>
-            </div>
-          </div>
+      {/* Gameplay Section */}
+      <section id="gameplay" className="py-28 px-6 border-b border-braise/20 max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <div className="text-braise font-mono font-bold text-sm tracking-widest uppercase mb-3">Expérience Immersive</div>
+          <h2 className="font-title text-4xl md:text-6xl font-black uppercase">Gameplay & Survie 3D</h2>
         </div>
-      </section>
 
-      {/* Palier 2: S'abriter */}
-      <section className="py-28 px-6 border-b border-braise/20 max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center md:flex-row-reverse">
-          <div className="bg-basalte border border-rouille/40 rounded-2xl p-8 shadow-2xl relative">
-            <Shield className="w-12 h-12 text-braise mb-6" />
-            <h3 className="font-title text-2xl font-bold mb-3 uppercase">Système de Vulnérabilité</h3>
-            <p className="text-cendre/70 text-sm leading-relaxed mb-4">
-              Quand vous vous déconnectez, votre abri reste vulnérable pendant 3 minutes dans le monde 3D. Fortifiez vos murs avec le minerai récolté pour résister aux pillages.
-            </p>
-            <div className="bg-rouille/20 border border-rouille/30 rounded-lg p-3 text-xs font-mono text-cendre/90">
-              Délai ajustable en temps réel via le Game Config Server.
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-basalte border border-braise/30 p-8 rounded-2xl relative overflow-hidden group hover:border-braise transition-all">
+            <div className="w-12 h-12 rounded-xl bg-braise/20 border border-braise/50 flex items-center justify-center text-braise mb-6">
+              <Zap className="w-6 h-6" />
             </div>
+            <h3 className="font-title text-2xl font-bold uppercase mb-3">1. Escalade Réelle</h3>
+            <p className="text-cendre/75 text-sm leading-relaxed">
+              Ascension verticale temps réel dans un monde 3D partagé. Sautez entre les rebords de basalte et utilisez les collisions contre les autres joueurs.
+            </p>
           </div>
-          <div>
-            <div className="text-braise font-mono font-bold text-sm tracking-widest uppercase mb-3">Palier II — Fortification</div>
-            <h2 className="font-title text-4xl md:text-5xl font-black mb-6 uppercase">
-              Construisez votre Abri
-            </h2>
-            <p className="text-cendre/75 text-lg leading-relaxed">
-              Ne dormez pas à découvert. Récoltez des métaux sur les parois de la tour, construisez un sanctuaire étanche et activez vos boucliers énergétiques avant de quitter le jeu.
+
+          <div className="bg-basalte border border-rouille/40 p-8 rounded-2xl relative overflow-hidden group hover:border-rouille transition-all">
+            <div className="w-12 h-12 rounded-xl bg-rouille/20 border border-rouille/50 flex items-center justify-center text-rouille mb-6">
+              <Shield className="w-6 h-6 text-braise" />
+            </div>
+            <h3 className="font-title text-2xl font-bold uppercase mb-3">2. Abri & Sécurité</h3>
+            <p className="text-cendre/75 text-sm leading-relaxed">
+              Fortifiez votre sanctuaire. Vos abris restent vulnérables 3 minutes après déconnexion. Posez des boucliers énergétiques pour protéger vos ressources.
+            </p>
+          </div>
+
+          <div className="bg-basalte border border-toxique/40 p-8 rounded-2xl relative overflow-hidden group hover:border-toxique transition-all">
+            <div className="w-12 h-12 rounded-xl bg-toxique/20 border border-toxique/50 flex items-center justify-center text-toxique mb-6">
+              <Skull className="w-6 h-6" />
+            </div>
+            <h3 className="font-title text-2xl font-bold uppercase mb-3">3. Invasions Toxiques</h3>
+            <p className="text-cendre/75 text-sm leading-relaxed">
+              Une fois par semaine, des hordes de rats mutants dévalent la tour depuis le sommet. Repoussez la vague avec votre guilde ou chutez à zéro.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Palier 3: Invasions Toxiques */}
-      <section className="py-28 px-6 border-b border-toxique/30 bg-toxique/5">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-toxique/20 border border-toxique/40 text-toxique font-mono text-xs font-bold uppercase mb-6">
-            <Skull className="w-4 h-4" />
-            <span>Événement Hebdomadaire</span>
-          </div>
-          <h2 className="font-title text-4xl md:text-6xl font-black mb-6 uppercase text-cendre">
-            Invasions de Rats Mutants
-          </h2>
-          <p className="max-w-2xl mx-auto text-cendre/80 text-lg mb-10">
-            Une fois par semaine, la horde déferle du sommet. Des milliers de vermines toxiques dévalent la tour, détruisent les abris et précipitent les joueurs impréparés tout au bas.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-6 text-left max-w-4xl mx-auto">
-            <div className="bg-basalte/80 border border-toxique/30 p-6 rounded-xl">
-              <div className="font-mono text-toxique font-bold text-lg mb-2">01. Alerte Générale</div>
-              <p className="text-sm text-cendre/70">Un cor strident retentit dans toute la tour 3D. Vous avez 60 secondes pour vous abriter.</p>
-            </div>
-            <div className="bg-basalte/80 border border-toxique/30 p-6 rounded-xl">
-              <div className="font-mono text-toxique font-bold text-lg mb-2">02. Défense Collective</div>
-              <p className="text-sm text-cendre/70">Posez des boucliers thermiques et utilisez vos armes fabriquées pour repousser la vague.</p>
-            </div>
-            <div className="bg-basalte/80 border border-toxique/30 p-6 rounded-xl">
-              <div className="font-mono text-toxique font-bold text-lg mb-2">03. Survivre ou Chuter</div>
-              <p className="text-sm text-cendre/70">Ceux dont l'abri cède perdent leur altitude et doivent tout recommencer.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Palier 4: Classement */}
-      <section className="py-28 px-6 border-b border-braise/20 max-w-6xl mx-auto">
+      {/* Classement Section */}
+      <section id="classement" className="py-28 px-6 border-b border-braise/20 max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <Trophy className="w-12 h-12 text-braise mx-auto mb-4" />
-          <h2 className="font-title text-4xl md:text-5xl font-black uppercase mb-4">Classement Mondial & France</h2>
-          <p className="text-cendre/70 max-w-xl mx-auto">Le Top 3 hebdomadaire reçoit les récompenses exclusives de l'Hexagone et du Sommet.</p>
+          <h2 className="font-title text-4xl md:text-5xl font-black uppercase mb-4">Classement Général & France</h2>
+          <p className="text-cendre/70 max-w-xl mx-auto font-sans">Le Top 3 hebdomadaire remporte les récompenses exclusives et le titre de Boss de la Tour.</p>
         </div>
 
         <div className="bg-basalte border border-braise/30 rounded-2xl overflow-hidden max-w-3xl mx-auto shadow-2xl">
@@ -181,8 +191,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Final Form Bêta */}
-      <section id="beta" className="py-28 px-6 max-w-4xl mx-auto text-center">
+      {/* Form Bêta */}
+      <section id="beta" className="py-24 px-6 border-b border-braise/20 max-w-4xl mx-auto text-center">
         <h2 className="font-title text-4xl md:text-6xl font-black uppercase mb-6">
           Prêt à conquérir la Tour ?
         </h2>
@@ -191,7 +201,7 @@ export default function HomePage() {
         </p>
 
         {subscribed ? (
-          <div className="inline-flex items-center space-x-3 bg-braise/20 border border-braise p-6 rounded-2xl text-braise font-semibold">
+          <div className="inline-flex items-center space-x-3 bg-braise/20 border border-braise p-6 rounded-2xl text-braise font-semibold font-mono">
             <CheckCircle2 className="w-8 h-8 flex-shrink-0" />
             <span className="text-left">Inscrit avec succès ! Vous recevrez votre clé d'accès bêta directement par e-mail.</span>
           </div>
@@ -215,8 +225,155 @@ export default function HomePage() {
         )}
       </section>
 
-      <footer className="border-t border-braise/20 py-8 px-6 text-center text-xs font-mono text-cendre/40">
-        © 2026 XTOWER Monorepo — Tous droits réservés.
+      {/* Contact Section */}
+      <section id="contact" className="py-28 px-6 max-w-6xl mx-auto border-b border-braise/20">
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div>
+            <div className="text-braise font-mono font-bold text-sm tracking-widest uppercase mb-3">Équipe & Support</div>
+            <h2 className="font-title text-4xl md:text-5xl font-black uppercase mb-6">Contactez XTOWER Studio</h2>
+            <p className="text-cendre/75 text-base leading-relaxed mb-8 font-sans">
+              Une question sur le jeu 3D, un partenariat média ou un problème technique ? Remplissez ce formulaire et notre équipe technique vous répondra sous 24h.
+            </p>
+
+            <div className="space-y-4 font-mono text-sm text-cendre/80">
+              <div className="flex items-center space-x-3">
+                <Mail className="w-5 h-5 text-braise" />
+                <span>contact@xtower-game.fr</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Globe className="w-5 h-5 text-braise" />
+                <span>https://site-xi-seven-39.vercel.app</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <MapPin className="w-5 h-5 text-braise" />
+                <span>Paris, France — Studio Indépendant</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-basalte border border-braise/30 p-8 rounded-2xl shadow-2xl">
+            {contactSubmitted ? (
+              <div className="text-center py-8 font-mono">
+                <CheckCircle2 className="w-12 h-12 text-braise mx-auto mb-4" />
+                <h3 className="text-xl font-bold mb-2">Message Envoyé !</h3>
+                <p className="text-cendre/70 text-xs">Merci pour votre message. Nous reviendrons vers vous très rapidement.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} className="space-y-4 font-mono">
+                <div>
+                  <label className="block text-xs uppercase mb-2 text-cendre/70">Nom / Pseudo</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Grimpeur_75"
+                    className="w-full bg-basalte border border-cendre/20 focus:border-braise px-4 py-3 rounded-lg text-cendre text-sm outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase mb-2 text-cendre/70">Adresse E-mail</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="vous@domaine.fr"
+                    className="w-full bg-basalte border border-cendre/20 focus:border-braise px-4 py-3 rounded-lg text-cendre text-sm outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase mb-2 text-cendre/70">Message</label>
+                  <textarea
+                    rows={4}
+                    required
+                    placeholder="Votre message ou question..."
+                    className="w-full bg-basalte border border-cendre/20 focus:border-braise px-4 py-3 rounded-lg text-cendre text-sm outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-3.5 bg-braise hover:bg-braise/90 text-cendre font-bold rounded-lg uppercase tracking-wider text-sm transition-all"
+                >
+                  Envoyer le Message
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Complete Footer with Partenaires, Mentions, CGV, CGU */}
+      <footer className="bg-basalte border-t border-braise/30 pt-16 pb-12 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+          {/* Brand Col */}
+          <div>
+            <div className="flex items-center space-x-3 font-title text-xl font-black text-cendre mb-4">
+              <span className="w-7 h-7 rounded bg-braise flex items-center justify-center text-basalte font-mono font-bold text-sm">X</span>
+              <span>XTOWER 3D</span>
+            </div>
+            <p className="text-cendre/60 text-xs leading-relaxed font-sans mb-4">
+              Le jeu multijoueur d'escalade verticale et de fortification d'abris 3D.
+            </p>
+            <div className="font-mono text-[10px] text-cendre/40">
+              © 2026 XTOWER Studio. Tous droits réservés.
+            </div>
+          </div>
+
+          {/* Nos Partenaires */}
+          <div className="font-mono text-xs">
+            <div className="font-bold text-cendre uppercase tracking-wider mb-4 border-b border-braise/20 pb-2">Nos Partenaires</div>
+            <ul className="space-y-2 text-cendre/70">
+              <li className="hover:text-braise transition-colors flex items-center space-x-1">
+                <span>• Supabase Cloud Postgres</span>
+              </li>
+              <li className="hover:text-braise transition-colors flex items-center space-x-1">
+                <span>• Vercel Edge Network</span>
+              </li>
+              <li className="hover:text-braise transition-colors flex items-center space-x-1">
+                <span>• Railway Infrastructure</span>
+              </li>
+              <li className="hover:text-braise transition-colors flex items-center space-x-1">
+                <span>• Colyseus Multiplayer Engine</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Liens Juridiques */}
+          <div className="font-mono text-xs">
+            <div className="font-bold text-cendre uppercase tracking-wider mb-4 border-b border-braise/20 pb-2">Juridique & Légal</div>
+            <ul className="space-y-2 text-cendre/70">
+              <li><a href="#contact" className="hover:text-braise transition-colors">• Mentions Légales</a></li>
+              <li><a href="#contact" className="hover:text-braise transition-colors">• CGV (Conditions Générales de Vente)</a></li>
+              <li><a href="#contact" className="hover:text-braise transition-colors">• CGU (Conditions d'Utilisation)</a></li>
+              <li><a href="#contact" className="hover:text-braise transition-colors">• Politique de Confidentialité & RGPD</a></li>
+            </ul>
+          </div>
+
+          {/* Liens Utiles & Status */}
+          <div className="font-mono text-xs">
+            <div className="font-bold text-cendre uppercase tracking-wider mb-4 border-b border-braise/20 pb-2">Ressources & Serveurs</div>
+            <ul className="space-y-2 text-cendre/70">
+              <li>
+                <a href="https://client-mu-amber-43.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-braise transition-colors flex items-center space-x-1">
+                  <span>• Serveur 3D Temps Réel</span>
+                  <ExternalLink className="w-3 h-3 inline ml-1 opacity-60" />
+                </a>
+              </li>
+              <li>
+                <a href="https://admin-three-pied-43.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-braise transition-colors flex items-center space-x-1">
+                  <span>• Dashboard Administration</span>
+                  <ExternalLink className="w-3 h-3 inline ml-1 opacity-60" />
+                </a>
+              </li>
+              <li><a href="#gameplay" className="hover:text-braise transition-colors">• Documentation des Rôles & Abris</a></li>
+              <li><a href="#contact" className="hover:text-braise transition-colors">• Centre de Signalement Joueurs</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto pt-8 border-t border-braise/10 flex flex-col md:flex-row justify-between items-center text-[11px] font-mono text-cendre/40">
+          <div>XTOWER Studio — Développé avec Next.js 14, Three.js 3D & Supabase.</div>
+          <div className="mt-4 md:mt-0 flex space-x-6">
+            <a href="#accueil" className="hover:text-braise">Haut de page ↑</a>
+          </div>
+        </div>
       </footer>
     </main>
   );
