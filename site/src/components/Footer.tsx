@@ -1,11 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="bg-basalte border-t border-braise/30 pt-16 pb-12 px-6 mt-auto">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
         {/* Brand Col */}
         <div>
           <div className="flex items-center space-x-3 font-title text-xl font-black text-cendre mb-4">
@@ -47,27 +46,6 @@ export default function Footer() {
             <li><Link href="/cgv" className="hover:text-braise transition-colors">• CGV (Conditions Générales de Vente)</Link></li>
             <li><Link href="/cgu" className="hover:text-braise transition-colors">• CGU (Conditions d'Utilisation)</Link></li>
             <li><Link href="/confidentialite" className="hover:text-braise transition-colors">• Politique de Confidentialité & RGPD</Link></li>
-          </ul>
-        </div>
-
-        {/* Liens Utiles & Status */}
-        <div className="font-mono text-xs">
-          <div className="font-bold text-cendre uppercase tracking-wider mb-4 border-b border-braise/20 pb-2">Ressources & Serveurs</div>
-          <ul className="space-y-2 text-cendre/70">
-            <li>
-              <a href="https://client-mu-amber-43.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-braise transition-colors flex items-center space-x-1">
-                <span>• Serveur 3D Temps Réel</span>
-                <ExternalLink className="w-3 h-3 inline ml-1 opacity-60" />
-              </a>
-            </li>
-            <li>
-              <a href="https://admin-three-pied-43.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-braise transition-colors flex items-center space-x-1">
-                <span>• Dashboard Administration</span>
-                <ExternalLink className="w-3 h-3 inline ml-1 opacity-60" />
-              </a>
-            </li>
-            <li><Link href="/gameplay" className="hover:text-braise transition-colors">• Documentation des Rôles & Abris</Link></li>
-            <li><Link href="/contact" className="hover:text-braise transition-colors">• Centre de Signalement Joueurs</Link></li>
           </ul>
         </div>
       </div>
