@@ -16,7 +16,7 @@ export default function ContactPage() {
       <div className="grid md:grid-cols-2 gap-12 items-start">
         <div>
           <div className="text-braise font-mono font-bold text-sm tracking-widest uppercase mb-3">Support & Partenariats</div>
-          <h1 className="font-title text-4xl md:text-6xl font-black uppercase mb-6">Contactez l'Équipe XTOWER</h1>
+          <h1 className="font-title text-4xl md:text-6xl font-black uppercase mb-6">Contactez Studio Xgame</h1>
           <p className="text-cendre/75 text-base leading-relaxed mb-8 font-sans">
             Une question technique sur le serveur 3D, une demande de partenariat média ou un problème d'accès ? Remplissez ce formulaire et nous vous répondrons sous 24h.
           </p>
@@ -32,7 +32,7 @@ export default function ContactPage() {
             </div>
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-braise" />
-              <span>Paris, France — Studio Indépendant XTOWER</span>
+              <span>Paris, France — Studio Xgame</span>
             </div>
           </div>
         </div>

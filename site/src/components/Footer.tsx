@@ -15,7 +15,7 @@ export default function Footer() {
             Le jeu multijoueur d'escalade verticale et de fortification d'abris 3D.
           </p>
           <div className="font-mono text-[10px] text-cendre/40">
-            © 2026 XTOWER Studio. Tous droits réservés.
+            © 2026 Studio Xgame. Tous droits réservés.
           </div>
         </div>
 
@@ -51,7 +51,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-braise/10 flex flex-col md:flex-row justify-between items-center text-[11px] font-mono text-cendre/40">
-        <div>XTOWER Studio — Développé avec Next.js 14, Three.js 3D & Supabase.</div>
+        <div>Studio Xgame — Développé avec Next.js 14, Three.js 3D & Supabase.</div>
         <div className="mt-4 md:mt-0 flex space-x-6">
           <Link href="/" className="hover:text-braise">Retour Accueil ↑</Link>
         </div>

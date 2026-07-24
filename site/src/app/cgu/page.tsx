@@ -14,7 +14,7 @@ export default function CGUPage() {
         <p>Tout comportement d'anti-jeu abusif, triche ou modification des scripts client 3D entraînera le bannissement définitif du compte par l'administrateur.</p>
         
         <h2 className="text-braise font-bold text-base uppercase mt-4">2. Propriété Intellectuelle</h2>
-        <p>L'ensemble des visuels 3D, codes source et marques XTOWER restent la propriété exclusive de XTOWER Studio.</p>
+        <p>L'ensemble des visuels 3D, codes source et marques XTOWER restent la propriété exclusive de Studio Xgame.</p>
       </div>
     </main>
   );

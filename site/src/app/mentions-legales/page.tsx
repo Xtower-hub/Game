@@ -11,7 +11,7 @@ export default function MentionsLegalesPage() {
       
       <section className="bg-basalte border border-braise/20 p-6 rounded-2xl space-y-3 font-mono text-sm">
         <h2 className="text-braise font-bold text-base uppercase">1. Éditeur du Site</h2>
-        <p>XTOWER Studio SAS</p>
+        <p>Studio Xgame SAS</p>
         <p>Siège social : Paris, France</p>
         <p>E-mail : contact@xtower-game.fr</p>
       </section>
