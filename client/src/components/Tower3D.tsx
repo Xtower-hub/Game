@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Group } from 'three';
+import { Mesh, Group, Color } from 'three';
 import { Stars, Sparkles, Float } from '@react-three/drei';
 
 interface TowerStructureProps {
@@ -15,18 +15,18 @@ export function TowerStructure({ playerPos, shelters, rats, resources }: TowerSt
 
   useFrame((_, delta) => {
     if (coreRef.current) {
-      coreRef.current.rotation.y += delta * 0.02;
+      coreRef.current.rotation.y += delta * 0.03;
     }
   });
 
   // Spiral 3D Platforms ascending up to 300m
   const platforms = useMemo(() => {
     const list = [];
-    const count = 75;
+    const count = 80;
     for (let i = 0; i < count; i++) {
       const height = i * 4;
-      const angle = i * 0.4;
-      const radius = 8;
+      const angle = i * 0.35;
+      const radius = 7;
       const x = Math.cos(angle) * radius;
       const z = Math.sin(angle) * radius;
       list.push({ id: i, pos: [x, height, z] as [number, number, number] });
@@ -37,100 +37,100 @@ export function TowerStructure({ playerPos, shelters, rats, resources }: TowerSt
   return (
     <group>
       {/* Dynamic Starfield Atmosphere */}
-      <Stars radius={150} depth={60} count={2000} factor={4} saturation={0.5} fade speed={1} />
+      <Stars radius={100} depth={50} count={2500} factor={4} saturation={0.8} fade speed={1.5} />
 
-      {/* Volumetric Ember Particles */}
+      {/* Volumetric Glowing Ember Particles */}
       <Sparkles
-        count={150}
-        scale={[35, 300, 35]}
-        size={5}
-        speed={0.8}
-        color="#FFA07A"
+        count={200}
+        scale={[30, 300, 30]}
+        size={6}
+        speed={1.0}
+        color="#FF6600"
       />
 
-      {/* Central Metallic Core Pillar with Emissive Stripes */}
+      {/* Central Metallic Core Pillar with Luminous Finish */}
       <mesh ref={coreRef} position={[0, 150, 0]}>
-        <cylinderGeometry args={[6.5, 7.5, 350, 24, 30, true]} />
+        <cylinderGeometry args={[5.5, 6.5, 350, 32, 40, true]} />
         <meshStandardMaterial
-          color="#3A322D"
-          roughness={0.3}
-          metalness={0.7}
-          emissive="#552211"
-          emissiveIntensity={0.4}
+          color="#4A3B32"
+          roughness={0.2}
+          metalness={0.8}
+          emissive="#662200"
+          emissiveIntensity={0.5}
         />
       </mesh>
 
-      {/* Outer Luminous Energy Rings */}
-      {Array.from({ length: 18 }).map((_, i) => (
-        <mesh key={i} position={[0, i * 20, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[9.5, 0.2, 16, 48]} />
+      {/* Outer Neon Energy Rings */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <mesh key={i} position={[0, i * 18, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[8.2, 0.25, 16, 48]} />
           <meshStandardMaterial
-            color="#FF5500"
-            emissive="#FF4400"
-            emissiveIntensity={2.5}
+            color="#FF4400"
+            emissive="#FF3300"
+            emissiveIntensity={3.0}
             roughness={0.1}
-            metalness={0.9}
+            metalness={1.0}
           />
         </mesh>
       ))}
 
-      {/* High Visibility Basalt Spiral Platforms */}
+      {/* Ultra-Visible Bright Basalt Platforms */}
       {platforms.map((p) => {
-        const isSpecial = p.id % 5 === 0;
+        const isSpecial = p.id % 4 === 0;
         return (
           <mesh key={p.id} position={p.pos} castShadow receiveShadow>
-            <boxGeometry args={[4.5, 0.9, 3.5]} />
+            <boxGeometry args={[4.8, 1.0, 3.8]} />
             <meshStandardMaterial
-              color={isSpecial ? "#D4592B" : "#4A3F39"}
-              roughness={0.3}
-              metalness={0.5}
-              emissive={isSpecial ? "#FF4400" : "#221100"}
-              emissiveIntensity={isSpecial ? 1.2 : 0.2}
+              color={isSpecial ? "#E65525" : "#6E5B52"}
+              roughness={0.2}
+              metalness={0.6}
+              emissive={isSpecial ? "#FF4400" : "#442211"}
+              emissiveIntensity={isSpecial ? 1.5 : 0.4}
             />
           </mesh>
         );
       })}
 
-      {/* Render High-Visibility 3D Player Character Avatar */}
+      {/* High-Visibility 3D Player Character Avatar */}
       <group position={playerPos}>
-        {/* Player Body (Stylized Glowing Cyber Knight) */}
-        <mesh position={[0, 1.2, 0]} castShadow>
-          <capsuleGeometry args={[0.55, 1.3, 8, 16]} />
+        {/* Main Glowing Cyber Knight Body */}
+        <mesh position={[0, 1.3, 0]} castShadow>
+          <capsuleGeometry args={[0.65, 1.4, 12, 24]} />
           <meshStandardMaterial
-            color="#FF4400"
-            emissive="#FF3300"
-            emissiveIntensity={0.8}
-            roughness={0.2}
+            color="#FF3300"
+            emissive="#FF2200"
+            emissiveIntensity={1.2}
+            roughness={0.1}
             metalness={0.9}
           />
         </mesh>
 
-        {/* Visor Glow */}
-        <mesh position={[0, 1.65, 0.4]}>
-          <boxGeometry args={[0.7, 0.2, 0.25]} />
-          <meshStandardMaterial color="#00FFCC" emissive="#00FFCC" emissiveIntensity={4} />
+        {/* Visor Neon Light */}
+        <mesh position={[0, 1.8, 0.45]}>
+          <boxGeometry args={[0.75, 0.25, 0.25]} />
+          <meshStandardMaterial color="#00FFFF" emissive="#00FFFF" emissiveIntensity={5.0} />
         </mesh>
 
-        {/* High Power Personal PointLight attached to player */}
-        <pointLight position={[0, 2.5, 1]} color="#FF7733" intensity={6} distance={18} />
+        {/* Powerful Player PointLight Light Source */}
+        <pointLight position={[0, 2.5, 1.5]} color="#FF6600" intensity={8.0} distance={22} />
       </group>
 
       {/* Render Shelters */}
       {shelters.map((s) => (
         <group key={s.id} position={s.pos}>
-          <mesh position={[0, 1, 0]}>
-            <boxGeometry args={[3.2, 2.2, 3.2]} />
-            <meshStandardMaterial color="#554433" roughness={0.4} metalness={0.6} emissive="#331100" emissiveIntensity={0.3} />
+          <mesh position={[0, 1.2, 0]}>
+            <boxGeometry args={[3.5, 2.4, 3.5]} />
+            <meshStandardMaterial color="#775544" roughness={0.3} metalness={0.7} emissive="#441100" emissiveIntensity={0.5} />
           </mesh>
           {s.shield && (
-            <mesh position={[0, 1, 0]}>
-              <sphereGeometry args={[2.5, 32, 32]} />
+            <mesh position={[0, 1.2, 0]}>
+              <sphereGeometry args={[2.7, 32, 32]} />
               <meshStandardMaterial
-                color="#00FF88"
-                emissive="#00FF88"
-                emissiveIntensity={1.5}
+                color="#00FF99"
+                emissive="#00FF99"
+                emissiveIntensity={2.0}
                 transparent
-                opacity={0.4}
+                opacity={0.45}
                 wireframe
               />
             </mesh>
@@ -141,21 +141,21 @@ export function TowerStructure({ playerPos, shelters, rats, resources }: TowerSt
       {/* Render Mutant Rats */}
       {rats.map((r) => (
         <mesh key={r.id} position={r.pos}>
-          <coneGeometry args={[0.5, 1.1, 8]} />
-          <meshStandardMaterial color="#AAFF00" emissive="#AAFF00" emissiveIntensity={2.5} />
+          <coneGeometry args={[0.6, 1.3, 12]} />
+          <meshStandardMaterial color="#CCFF00" emissive="#CCFF00" emissiveIntensity={3.0} />
         </mesh>
       ))}
 
       {/* Render Collectible Resources */}
       {resources.map((res) => (
-        <Float key={res.id} speed={2.5} rotationIntensity={1.5} floatIntensity={1.2} position={res.pos}>
+        <Float key={res.id} speed={3.0} rotationIntensity={2.0} floatIntensity={1.5} position={res.pos}>
           <mesh>
-            <octahedronGeometry args={[0.5]} />
+            <octahedronGeometry args={[0.6]} />
             <meshStandardMaterial
               color={res.type === 'metal' ? '#FFFFFF' : '#FF4400'}
               emissive={res.type === 'metal' ? '#FFFFFF' : '#FF4400'}
-              emissiveIntensity={2.0}
-              roughness={0.1}
+              emissiveIntensity={2.5}
+              roughness={0.05}
               metalness={1.0}
             />
           </mesh>
@@ -168,15 +168,15 @@ export function TowerStructure({ playerPos, shelters, rats, resources }: TowerSt
 export function RealisticEnvironment() {
   return (
     <>
-      <ambientLight intensity={1.2} />
+      <ambientLight intensity={1.8} />
       <directionalLight
-        position={[40, 120, 50]}
-        intensity={3.0}
-        color="#FFF8F0"
+        position={[50, 150, 60]}
+        intensity={3.5}
+        color="#FFF6F0"
         castShadow
       />
-      <directionalLight position={[-30, 80, -30]} intensity={1.5} color="#FF7733" />
-      <fog attach="fog" args={['#151210', 40, 200]} />
+      <directionalLight position={[-40, 90, -40]} intensity={2.0} color="#FF6600" />
+      <pointLight position={[0, 50, 0]} color="#FF4400" intensity={4.0} distance={100} />
     </>
   );
 }
