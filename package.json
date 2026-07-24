@@ -1,0 +1,25 @@
+{
+  "name": "xtower-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Xtower Monorepo - Game, Site, Client 3D, Admin & Shared packages",
+  "workspaces": [
+    "packages/*",
+    "site",
+    "server",
+    "client",
+    "admin"
+  ],
+  "scripts": {
+    "dev:site": "npm run dev --workspace=site",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "dev:admin": "npm run dev --workspace=admin",
+    "build:shared": "npm run build --workspace=packages/shared",
+    "build:all": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

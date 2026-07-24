@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:wght@700;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Unbounded:wght@700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-basalte: #151210;
+  --accent-braise: #C4491D;
+  --secondary-rouille: #8B3A2B;
+  --text-cendre: #E8E1D3;
+  --event-toxique: #8FA31E;
+}
+
+body {
+  background-color: var(--bg-basalte);
+  color: var(--text-cendre);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
