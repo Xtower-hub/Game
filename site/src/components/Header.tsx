@@ -14,13 +14,14 @@ export default function Header() {
     { href: '/', label: 'Accueil' },
     { href: '/gameplay', label: 'Gameplay' },
     { href: '/classement', label: 'Classement' },
+    { href: '/achat', label: 'Achat' },
     { href: '/contact', label: 'Contact' },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-basalte/90 backdrop-blur-md border-b border-braise/20">
-      <AltitudeMeter />
+    <header className="fixed top-0 left-0 right-0 z-40 bg-basalte/95 backdrop-blur-md border-b border-braise/20">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        {/* Brand Logo */}
         <Link href="/" className="flex items-center space-x-3 font-title text-2xl font-black text-cendre tracking-wider">
           <span className="w-9 h-9 rounded-lg bg-braise flex items-center justify-center text-basalte font-mono font-bold text-xl">X</span>
           <span>XTOWER</span>
@@ -46,12 +47,14 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center space-x-4 pr-72">
+        {/* Right Section: Resized Altitude Meter & CTA */}
+        <div className="hidden md:flex items-center space-x-4">
+          <AltitudeMeter />
           <Link
             href="/#beta"
-            className="px-5 py-2.5 bg-braise hover:bg-braise/90 text-cendre font-mono font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-lg shadow-braise/20"
+            className="px-4 py-2 bg-braise hover:bg-braise/90 text-cendre font-mono font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-lg shadow-braise/20"
           >
-            Rejoindre la Bêta
+            Bêta
           </Link>
         </div>
 
@@ -68,6 +71,9 @@ export default function Header() {
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-basalte border-b border-braise/30 px-6 py-6 font-mono text-sm flex flex-col space-y-4">
+          <div className="pb-2 border-b border-cendre/10 flex justify-center">
+            <AltitudeMeter />
+          </div>
           {navLinks.map((link) => (
             <Link
               key={link.href}

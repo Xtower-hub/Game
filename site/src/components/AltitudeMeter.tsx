@@ -33,7 +33,7 @@ export default function AltitudeMeter() {
           .select('*', { count: 'exact', head: true });
 
         if (!error && count !== null) {
-          setActivePlayers(Math.max(count, 14)); // Show real database players count
+          setActivePlayers(Math.max(count, 14));
         }
       } catch (err) {
         console.error("Error fetching online players count:", err);
@@ -49,28 +49,28 @@ export default function AltitudeMeter() {
   const glowIntensity = Math.round(ratio * 20);
 
   return (
-    <div className="fixed top-6 right-6 z-50 flex items-center space-x-4 bg-basalte/90 border border-braise/40 px-5 py-2.5 rounded-full backdrop-blur-md shadow-2xl transition-all duration-300">
+    <div className="flex items-center space-x-3 bg-basalte/90 border border-braise/40 px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-lg text-xs">
       {/* Real Online Players Counter */}
-      <div className="flex items-center space-x-2 border-r border-braise/30 pr-4">
-        <span className="relative flex h-2.5 w-2.5">
+      <div className="flex items-center space-x-1.5 border-r border-braise/30 pr-3">
+        <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <div className="flex flex-col items-start font-mono">
-          <span className="text-[9px] uppercase tracking-widest text-cendre/60">Joueurs Connectés</span>
-          <span className="text-sm font-bold text-emerald-400 flex items-center space-x-1">
-            <Users className="w-3 h-3 inline mr-0.5" />
-            <span>{activePlayers} en ligne</span>
+          <span className="text-[8px] uppercase tracking-widest text-cendre/60 leading-none">Joueurs</span>
+          <span className="text-xs font-bold text-emerald-400 flex items-center space-x-0.5 leading-tight">
+            <Users className="w-2.5 h-2.5 inline mr-0.5" />
+            <span>{activePlayers}</span>
           </span>
         </div>
       </div>
 
       {/* Altitude Scroll Meter */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2">
         <div className="flex flex-col items-end">
-          <span className="text-[9px] uppercase tracking-widest font-mono text-cendre/60">Altitude Actuelle</span>
+          <span className="text-[8px] uppercase tracking-widest font-mono text-cendre/60 leading-none">Altitude</span>
           <span 
-            className="font-mono text-xl font-bold tracking-tight transition-colors duration-200"
+            className="font-mono text-xs font-bold tracking-tight transition-colors duration-200 leading-tight"
             style={{
               color: `hsl(${16 - ratio * 16}, 75%, ${44 + ratio * 15}%)`,
               textShadow: `0 0 ${glowIntensity}px rgba(196, 73, 29, ${0.4 + ratio * 0.6})`
@@ -79,7 +79,7 @@ export default function AltitudeMeter() {
             {altitude.toLocaleString('fr-FR')} m
           </span>
         </div>
-        <div className="w-2.5 h-8 bg-basalte border border-braise/30 rounded-full overflow-hidden flex flex-col justify-end p-0.5">
+        <div className="w-2 h-6 bg-basalte border border-braise/30 rounded-full overflow-hidden flex flex-col justify-end p-0.5">
           <div 
             className="w-full rounded-full transition-all duration-150 bg-gradient-to-t from-braise to-red-600"
             style={{ height: `${Math.max(ratio * 100, 5)}%` }}
