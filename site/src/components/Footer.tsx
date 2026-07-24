@@ -51,7 +51,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-braise/10 flex flex-col md:flex-row justify-between items-center text-[11px] font-mono text-cendre/40">
-        <div>Studio Xgame — Développé avec Next.js 14, Three.js 3D & Supabase.</div>
+        <div>Studio Xgame — XTOWER Développé par Studio Xgame</div>
         <div className="mt-4 md:mt-0 flex space-x-6">
           <Link href="/" className="hover:text-braise">Retour Accueil ↑</Link>
         </div>
