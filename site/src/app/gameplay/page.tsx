@@ -153,7 +153,7 @@ export default function GameplayPage() {
               </li>
               <li className="flex items-start space-x-2">
                 <span className="text-toxique font-bold">•</span>
-                <span><strong>Déclenchement Admin :</strong> En plus du cron automatique hebdomadaire, les administrateurs peuvent déclencher des invasions surprises depuis le dashboard `/admin`.</span>
+                <span><strong>Événements Imprévus :</strong> En plus du grand rendez-vous hebdomadaire, les Maîtres du Jeu peuvent déclencher des invasions surprises à tout moment.</span>
               </li>
             </ul>
           </div>
